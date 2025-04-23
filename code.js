@@ -15,6 +15,7 @@ let operand;
  * @returns a + b - The sum of adding a and b. 
  */
 const add = function(a, b){
+    return a + b;
 }
 
 
@@ -28,6 +29,7 @@ const add = function(a, b){
  * @returns a - b - The difference of substracting a and b. 
  */
 const subtract = function(a, b){
+    return a - b;
 }
 
 
@@ -41,6 +43,7 @@ const subtract = function(a, b){
  * @returns a * b - The product of multiplying a and b. 
  */
 const multiply = function(a, b){
+    return a * b;
 }
 
 
@@ -54,6 +57,7 @@ const multiply = function(a, b){
  * @returns a / b - The quotient of dividing a and b. 
  */
 const divide = function(a, b){
+    return a / b;
 }
 
 
@@ -68,6 +72,12 @@ const divide = function(a, b){
  * @returns The result of `a operator b`.
  */
 const operate = function(operator, a, b){
+    switch(operator) {
+        case '+': return add(a, b);
+        case '-': return subtract(a, b);
+        case '*': return multiply(a, b);
+        case '/': return divide(a, b);
+    }
 }
 
 
