@@ -57,7 +57,12 @@ const multiply = function(a, b){
  * @returns a / b - The quotient of dividing a and b. 
  */
 const divide = function(a, b){
+    if (b == 0){
+        alert("You can't divide by 0 (:")
+        clearDisplay();
+    }else{
     return a / b;
+    }
 }
 
 
