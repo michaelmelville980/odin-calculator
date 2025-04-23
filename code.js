@@ -1,8 +1,11 @@
 
-// Creating variables for operation
+// Initializing variables
 let firstNumber;
+let operator;
 let secondNumber;
-let operand;
+let lastButtonPress = "clear"; //(clear, result, firstNumber, operand, secondNumber)
+const displayRef = document.querySelector("#display");
+const calculatorRef = document.querySelector("#calculator");
 
 
 
@@ -61,7 +64,7 @@ const divide = function(a, b){
         alert("You can't divide by 0 (:")
         clearDisplay();
     }else{
-    return a / b;
+        return a / b;
     }
 }
 
@@ -89,8 +92,133 @@ const operate = function(operator, a, b){
 
 
 /**
- * Populates display when digit buttons clicked.
+ * Updates calculator display in response to "click" events.
+ * 
+ * @param event - The event
  */
-const updateDisplay = function(operator, a, b){
+const updateDisplay = function(event){
+    if (event.target.id === "clear"){
+        clearDisplay();
+    }else if (event.target.className === "operand" || event.target.className === "operator"){
+        addToDisplay(event);
+    }else if (event.target.id === "="){
+        returnResult();
+    }
 }
+
+
+
+
+/**
+ * Clears calculator display.
+ */
+const clearDisplay = function(){
+    displayRef.textContent = "";
+    lastButtonPress = "clear";
+}
+
+
+
+
+/**
+ * Updates calculator display and stores operand/operators as variables.
+ * 
+ * @param event - The event.
+ */
+const addToDisplay = function(event){
+
+    if (event.target.className === "operand"){
+
+        if (lastButtonPress === "clear" || lastButtonPress === "result"){
+            firstNumber = Number(event.target.textContent);
+            displayRef.textContent = firstNumber;
+            lastButtonPress = "firstNumber";
+        } 
+
+        else if (lastButtonPress === "operator"){
+            secondNumber = Number(event.target.textContent);
+            displayRef.textContent = secondNumber;
+            lastButtonPress = "secondNumber";
+        }
+
+        else if (lastButtonPress === "firstNumber"){
+            currentDigit = Number(event.target.textContent);
+            firstNumber = ((firstNumber * 10) + currentDigit);
+            displayRef.textContent = firstNumber;
+            lastButtonPress = "firstNumber";
+        }
+
+        else if (lastButtonPress === "secondNumber"){
+            currentDigit = Number(event.target.textContent);
+            secondNumber = ((secondNumber * 10) + currentDigit);
+            displayRef.textContent = secondNumber;
+            lastButtonPress = "secondNumber";
+        }
+
+    }
+
+    else if (event.target.className === "operator"){
+        if (lastButtonPress === "secondNumber"){
+            returnResult();
+        }else if (lastButtonPress === "operator"){
+            secondNumber = firstNumber;
+            returnResult();
+        }
+        lastButtonPress = "operator";
+        operator = event.target.id;
+    }
+}
+
+
+
+
+/**
+ * Displays Result.
+ */
+const returnResult = function(){
+    if (lastButtonPress !== "clear" && lastButtonPress !== "result"){
+        firstNumber = Number(operate(operator, firstNumber, secondNumber).toFixed(8));
+        displayRef.textContent = firstNumber;
+        lastButtonPress = "result";
+    }
+}
+
+
+
+
+// ─────────────────────────────────────────────
+//  Actual Listener
+// ─────────────────────────────────────────────
+calculatorRef.addEventListener("click", e => {
+    updateDisplay(e);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
